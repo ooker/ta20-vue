@@ -5,6 +5,9 @@ import { ref } from "vue";
 import FilmCard from './components/FilmCard.vue';
 
 const films = ref(null);
+const activeIndex = ref(null);
+const activeFilm = ref(null);
+
 
 fetch('https://ghibliapi.herokuapp.com/films')
   .then(response => response.json())
@@ -13,15 +16,41 @@ fetch('https://ghibliapi.herokuapp.com/films')
     console.log(films.value);
   });
 
+
+const cardClick = (idx) => {
+  activeIndex.value = idx;
+  activeFilm.value = films.value[idx];
+  // console.log("klikk:", title);
+}
+
+
 </script>
+
+
 
 <template>
 
-<div class="p-20">
+<div class="p-10">
   
-  <film-card v-for="(film, i) in films" :key="`film_${i}`"
+  <div class="grid grid-cols-2 gap-4" v-if="films">
+    <div class="grid md:grid-cols-2 gap-4">
+      <FilmCard v-for="(film, i) in films" :key="`film_${i}`"
+        @click="cardClick(i)"
+        :title="film.title" :director="film.director" :img="film.movie_banner"
+        class="rounded-lg cursor-pointer duration-1000 hover:bg-yellow-100"
+      />
+    </div>
+    <div v-if="activeIndex || activeIndex === 0">
+      <h1>{{films[activeIndex].title}} </h1>
+      <img :src="films[activeIndex].image" class="w-full" />
+      <p>{{films[activeIndex].description}}</p>
+      <!-- <h1 class="text-blue-500" v-if="activeFilm">{{activeFilm.title}} </h1> -->
+    </div>
+  </div>
+
+  <!-- <FilmCard v-for="(film, i) in films" :key="`film_${i}`"
     :title="film.title" :director="film.director" :img="film.movie_banner"
-  />
+  /> -->
 
   <!-- <h1> {{ films[2].title }} </h1> -->
 
