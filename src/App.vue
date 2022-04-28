@@ -3,6 +3,7 @@
 import { ref } from "vue";
 
 import FilmCard from './components/FilmCard.vue';
+import FilmInfo from './components/FilmInfo.vue';
 
 const films = ref(null);
 const activeIndex = ref(null);
@@ -13,7 +14,7 @@ fetch('https://ghibliapi.herokuapp.com/films')
   .then(response => response.json())
   .then(data => {
     films.value = data;
-    console.log(films.value);
+    // console.log(films.value);
   });
 
 
@@ -32,18 +33,21 @@ const cardClick = (idx) => {
 
 <div class="p-10">
   
-  <div class="grid grid-cols-2 gap-4" v-if="films">
-    <div class="grid md:grid-cols-2 gap-4">
+  <div class="grid grid-cols-2 gap-4" >
+    <div class="grid md:grid-cols-2 gap-4" v-if="films">
       <FilmCard v-for="(film, i) in films" :key="`film_${i}`"
         @click="cardClick(i)"
         :title="film.title" :director="film.director" :img="film.movie_banner"
         class="rounded-lg cursor-pointer duration-1000 hover:bg-yellow-100"
       />
     </div>
-    <div v-if="activeIndex || activeIndex === 0">
-      <h1>{{films[activeIndex].title}} </h1>
-      <img :src="films[activeIndex].image" class="w-full" />
-      <p>{{films[activeIndex].description}}</p>
+    <div v-if="activeIndex != null">
+      <film-info 
+        :title="films[activeIndex].title" 
+        :director="films[activeIndex].director" 
+        :original="films[activeIndex].original_title" 
+        :img="films[activeIndex].image" 
+      />
       <!-- <h1 class="text-blue-500" v-if="activeFilm">{{activeFilm.title}} </h1> -->
     </div>
   </div>
@@ -59,7 +63,7 @@ const cardClick = (idx) => {
       <!-- </div> -->
     
 </div>
-
+  
     <!-- <h1 class="font-bold text-red-500">asdadads</h1>
     <img alt="Vue logo" src="./assets/logo.png" />
     <HelloWorld msg="Hello Vue  3 + Vite TA 20"  /> -->
