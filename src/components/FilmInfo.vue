@@ -1,7 +1,4 @@
 <script setup>
-import {ref, computed} from 'vue';
-import { useStore } from 'vuex';
-import FilmCard from './FilmCard.vue';
     const props = defineProps({
         title: String,
         director: {
@@ -16,22 +13,16 @@ import FilmCard from './FilmCard.vue';
         original: String
     });
 
-    const store = useStore();
-    const lang = ref(computed(() => store.getters.lang));
-
-    const changeLang = (lang) => {
-        store.commit("setLang", lang);
-    } 
-
 </script>
 
 <template>
-    <div>
-        <h1>Lang {{lang}}</h1>
-        <h1>{{props.title}} <br> {{props.original}} </h1>
-        <address>{{props.director}}</address>
-        <img :src="props.img" class="w-full" />
-        <p>{{props.description}}</p>
+    <div class="flex gap-4">
+        <img :src="props.img" class="h-[90vh] w-auto m-0 " />
+        <div class="pt-8">
+            <h1>{{props.title}}<br>{{props.original}} </h1>
+            <address>{{props.director}}</address>
+            <p>{{props.description}}</p>
+        </div>
     </div>
 </template>
 

@@ -5,22 +5,17 @@ const store = createStore({
     state () {
       return {
         count: 0,
-        lang: 'en',
-        mingiAsi : {
-            title: "janii",
-            isActive: false
-        }
+        isDark: false,
       }
     },
-    getters : {
-                
-        lang(state){
-            return state.lang;
+    getters : {      
+        isDark(state){
+            return state.isDark;
         },
     },
     mutations: {
-      setLang (state, newLang) {
-        state.lang = newLang
+      toggleDark (state) {
+        state.isDark = !state.isDark;
       }
     }
   })
